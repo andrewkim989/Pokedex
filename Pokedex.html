@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pokedex</title>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            for (var i = 1; i <= 807; i++) {
+                $("#pokemon").append(`<img src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png' id = '${i}'/>`);
+            }
+            $("img").click(function () {
+                var id = $(this).attr("id");
+                $.get("https://pokeapi.co/api/v2/pokemon/" + id, function (data) {
+                    var name = data.forms[0].name.charAt(0).toUpperCase() + data.forms[0].name.slice(1);
+                    $("#info").html(`<h1>${name}</h1>`);
+                    $("#info").append(`<img src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png'/>`);
+
+                    $("#info").append("<h3>Types</h3>");
+                    for (var i = 0; i < data.types.length; i++) {
+                        var type = data.types[i].type.name.charAt(0).toUpperCase() + 
+                            data.types[i].type.name.slice(1);
+                        $("#info").append(`<li>${type}</li>`);
+                    }
+
+                    $("#info").append("<h3>Height</h3>");
+                    $("#info").append(`<p>${data.height}</p>`);
+                    
+                    $("#info").append("<h3>Weight</h3>");
+                    $("#info").append(`<p>${data.weight}</p>`);
+
+                    $("#info").append("<h3>Abilities</h3>");
+                    for (var i = 0; i < data.abilities.length; i++) {
+                        var ability = data.abilities[i].ability.name.charAt(0).toUpperCase() + 
+                            data.abilities[i].ability.name.slice(1);
+                        ability = ability.replace(/-/g, " ");
+                        $("#info").append(`<li>${ability}</li>`);
+                    }
+
+                    $("#info").append("<h3>Appearances</h3>");
+                    for (var i = data.game_indices.length - 1; i >= 0; i--) {
+                        var version = data.game_indices[i].version.name.charAt(0).toUpperCase() + 
+                            data.game_indices[i].version.name.slice(1);
+                        version = version.replace(/-/g, " ");
+                        $("#info").append(`<li>Pokemon: ${version}</li>`);
+                    }
+                    
+                    $("#info").append("<h3>Base Experience</h3>");
+                    $("#info").append(`<p>${data.base_experience}</p>`);
+
+                    $("#info").append("<h3>Stats</h3>");
+                    for (var i = data.stats.length - 1; i >= 0; i--) {
+                        var stat;
+                        if (i == 5) {
+                            stat = data.stats[i].stat.name.toUpperCase();
+                        }
+                        else {
+                            stat = data.stats[i].stat.name.charAt(0).toUpperCase() + 
+                                data.stats[i].stat.name.slice(1);
+                            stat = stat.replace(/-/g, " ");
+                        }
+                        var base_stat = data.stats[i].base_stat
+                        $("#info").append(`<li>${stat}: ${base_stat}</li>`);
+                    }
+
+                    $("#info").append("<h3>Moves</h3>");
+                    for (var i = 0; i < data.moves.length; i++) {
+                        var move = data.moves[i].move.name.charAt(0).toUpperCase() + 
+                            data.moves[i].move.name.slice(1);
+                        move = move.replace(/-/g, " ");
+                        $("#info").append(`<li>${move}</li>`);
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        #pokemon {
+            display: inline-block;
+            width: 980px;
+            vertical-align: top;
+        }
+        #info {
+            display: inline-block;
+            width: 300px;
+            vertical-align: top;
+            margin-right: 15px;
+            position: fixed;
+            overflow: auto;
+            height: 600px;
+            padding-bottom: 20px;
+            background-color: rgb(204, 228, 236);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        #info h1 {
+            text-align: center;
+        }
+        #info img {
+            margin-left: 30%;
+        }
+        #info li {
+            list-style: none;
+            padding: 0;
+            padding-left: 15px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id = "wrapper">
+        <div id = "pokemon"></div>
+        <div id = "info">
+            <p style = "font-size: 20px;">Welcome to the Pokedex app! Click on the Pokemon images on the left to get information about
+            each of the Pokemon, which will be displayed in this box! The information is gathered from
+            the <a target = "_blank" href = "https://pokeapi.co/">Pokemon API website</a>, while the
+            images are from the <a target = "_blank" href = "https://github.com/PokeAPI/sprites/">
+            Pokemon API Github</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
