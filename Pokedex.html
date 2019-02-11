@@ -16,11 +16,13 @@
                     $("#info").append(`<img src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png'/>`);
 
                     $("#info").append("<h3>Types</h3>");
+                    $("#info").append("<ul>");
                     for (var i = 0; i < data.types.length; i++) {
                         var type = data.types[i].type.name.charAt(0).toUpperCase() + 
                             data.types[i].type.name.slice(1);
                         $("#info").append(`<li>${type}</li>`);
                     }
+                    $("#info").append("</ul>");
 
                     $("#info").append("<h3>Height</h3>");
                     $("#info").append(`<p>${data.height}</p>`);
@@ -29,25 +31,30 @@
                     $("#info").append(`<p>${data.weight}</p>`);
 
                     $("#info").append("<h3>Abilities</h3>");
+                    $("#info").append("<ul>");
                     for (var i = 0; i < data.abilities.length; i++) {
                         var ability = data.abilities[i].ability.name.charAt(0).toUpperCase() + 
                             data.abilities[i].ability.name.slice(1);
                         ability = ability.replace(/-/g, " ");
                         $("#info").append(`<li>${ability}</li>`);
                     }
+                    $("#info").append("</ul>");
 
                     $("#info").append("<h3>Appearances</h3>");
+                    $("#info").append("<ul>");
                     for (var i = data.game_indices.length - 1; i >= 0; i--) {
                         var version = data.game_indices[i].version.name.charAt(0).toUpperCase() + 
                             data.game_indices[i].version.name.slice(1);
                         version = version.replace(/-/g, " ");
                         $("#info").append(`<li>Pokemon: ${version}</li>`);
                     }
+                    $("#info").append("</ul>");
                     
                     $("#info").append("<h3>Base Experience</h3>");
                     $("#info").append(`<p>${data.base_experience}</p>`);
 
                     $("#info").append("<h3>Stats</h3>");
+                    $("#info").append("<ul>");
                     for (var i = data.stats.length - 1; i >= 0; i--) {
                         var stat;
                         if (i == 5) {
@@ -61,14 +68,17 @@
                         var base_stat = data.stats[i].base_stat
                         $("#info").append(`<li>${stat}: ${base_stat}</li>`);
                     }
+                    $("#info").append("</ul>");
 
                     $("#info").append("<h3>Moves</h3>");
+                    $("#info").append("<ul>");
                     for (var i = 0; i < data.moves.length; i++) {
                         var move = data.moves[i].move.name.charAt(0).toUpperCase() + 
                             data.moves[i].move.name.slice(1);
                         move = move.replace(/-/g, " ");
                         $("#info").append(`<li>${move}</li>`);
                     }
+                    $("#info").append("</ul>");
                 });
             });
         });
